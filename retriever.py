@@ -108,7 +108,10 @@ class SHLRetriever:
 
     def get_all(self) -> List[dict]:
         return list(self.catalog)
-
-
 # Singleton - initialized once at module import time
-retriever = SHLRetriever()
+retriever = None
+def get_retriever():
+    global retriever
+    if retriever is None:
+        retriever = SHLRetriever()
+    return retriever
