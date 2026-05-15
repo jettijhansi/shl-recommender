@@ -113,3 +113,62 @@ The free tier (Gemini 1.5 Flash) is sufficient for this project.
 | Compare assessments | "Difference between OPQ and Verify G+?" → grounded answer |
 | Stay in scope | Refuses HR/legal advice, prompt injection |
 | Turn cap | Ends gracefully at 8 turns with final recommendations |
+
+## Evaluation Methodology
+
+The conversational SHL assessment recommender was evaluated across four major dimensions:
+
+### 1. Retrieval Quality
+The FAISS semantic retriever was tested using multiple hiring-related queries across different domains and seniority levels.
+
+Evaluation checks included:
+- Whether retrieved assessments matched the intended job role
+- Relevance of top-k retrieved results
+- Consistency of retrieval across similar queries
+
+Example queries tested:
+- "Hire a Java backend developer"
+- "Need leadership assessment for managers"
+- "Assessment for customer support executives"
+
+### 2. Recommendation Relevance
+The LLM-generated recommendations were evaluated for:
+- Role alignment
+- Seniority alignment
+- Skill relevance
+- Personality/cognitive fit relevance
+
+Recommendations were manually verified against SHL catalog metadata.
+
+### 3. Groundedness and Hallucination Prevention
+To ensure grounded responses:
+- All recommendations were validated against the internal SHL catalog
+- Only catalog-backed URLs were returned
+- Hallucinated recommendations were filtered automatically
+- Recommendation names and URLs were cross-checked before response generation
+
+### 4. Conversational Effectiveness
+The API was tested for:
+- Clarification question handling
+- Refinement of recommendations after new constraints
+- Assessment comparison handling
+- Prompt injection rejection
+- Off-topic request rejection
+- Turn-limit enforcement
+
+### Example Evaluation Scenarios
+
+| Scenario | Expected Behavior |
+|---|---|
+| Vague hiring request | Ask clarifying questions |
+| Add new constraints | Refine recommendations |
+| Compare assessments | Return grounded comparison |
+| Prompt injection attempt | Reject unsafe request |
+| Long conversation | Enforce turn limit |
+
+### Manual Testing
+The API was manually tested through:
+- FastAPI Swagger UI
+- POST /chat endpoint
+- Multi-turn conversational scenarios
+- Retrieval validation against SHL catalog entries
