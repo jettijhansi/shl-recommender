@@ -147,7 +147,7 @@ def _extract_comparison_names(text: str) -> List[str]:
     Try to extract assessment names from comparison questions.
     E.g. "difference between OPQ32r and Verify G+" → ["OPQ32r", "Verify G+"]
     """
-    all_names = [item["name"].lower() for item in retriever.get_all()]
+    all_names = [item["name"].lower() for item in get_retriever().get_all()]
     found = []
     text_lower = text.lower()
     for item in retriever.get_all():
