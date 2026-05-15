@@ -150,7 +150,7 @@ def _extract_comparison_names(text: str) -> List[str]:
     all_names = [item["name"].lower() for item in get_retriever().get_all()]
     found = []
     text_lower = text.lower()
-    for item in retriever.get_all():
+    for item in get_retriever().get_all():
         # Match partial names too (e.g. "OPQ" matches "OPQ32r")
         short_name = item["name"].split("(")[0].strip().lower()
         if short_name in text_lower or item["name"].lower() in text_lower:
@@ -223,8 +223,8 @@ def _parse_llm_response(raw: str) -> dict:
     }
 
     # Validate recommendations against actual catalog
-    catalog_url_map = {item["name"].lower(): item for item in retriever.get_all()}
-    catalog_urls = {item["url"] for item in retriever.get_all()}
+    catalog_url_map = {item["name"].lower(): item for item in get_retriever().get_all()}
+    catalog_urls = {item["url"] for item in get_retriever().get_all()}
 
     raw_recs = data.get("recommendations", [])
     if isinstance(raw_recs, list):
@@ -286,7 +286,7 @@ def _get_safe_fallback_response(messages: List[Message]) -> dict:
 
     # Try a basic keyword-based recommendation
     query = build_retrieval_query(messages)
-    results = retriever.search(query, top_k=5)
+    results = get_retriever().search(query, top_k=5)
     recs = [{"name": r["name"], "url": r["url"], "test_type": r["test_type"]} for r in results[:5]]
 
     return {
@@ -330,7 +330,7 @@ async def chat(request: ChatRequest):
 
     # ── Retrieval ─────────────────────────────────────────────────────────────
     retrieval_query = build_retrieval_query(messages)
-    catalog_excerpts = retriever.search(retrieval_query, top_k=TOP_K_RETRIEVAL)
+    catalog_excerpts = get_retriever().search(retrieval_query, top_k=TOP_K_RETRIEVAL)
 
     # ── Prompt assembly ───────────────────────────────────────────────────────
     msg_dicts = [{"role": m.role, "content": m.content} for m in messages]
