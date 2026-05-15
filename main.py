@@ -31,7 +31,7 @@ from prompts import (
     build_retrieval_query,
     build_user_prompt,
 )
-from retriever import retriever
+from retriever import get_retriever
 
 # ── Setup ─────────────────────────────────────────────────────────────────────
 load_dotenv()
