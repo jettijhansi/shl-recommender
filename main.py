@@ -329,7 +329,9 @@ async def chat(request: ChatRequest):
         )
 
     # ── Retrieval ─────────────────────────────────────────────────────────────
-    retrieval_query = build_retrieval_query(messages)
+    retrieval_query = build_retrieval_query(
+    [{"role": m.role, "content": m.content} for m in messages]
+)
     catalog_excerpts = get_retriever().search(retrieval_query, top_k=TOP_K_RETRIEVAL)
 
     # ── Prompt assembly ───────────────────────────────────────────────────────
