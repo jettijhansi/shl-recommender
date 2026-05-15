@@ -11,7 +11,7 @@ User → POST /chat → Retriever (FAISS) → LLM (Gemini Flash) → JSON Respon
 - **Retriever**: `sentence-transformers` embeds catalog items at startup; FAISS semantic search retrieves top-15 relevant assessments per query.
 - **LLM**: Gemini 1.5 Flash with JSON mode for structured, grounded responses.
 - **Catalog**: 40 real SHL Individual Test Solutions stored in `catalog.json`.
-- **State**: Fully stateless — entire conversation history sent with each request.
+- **State**: Fully stateless entire conversation history sent with each request.
 
 ## Quickstart
 
